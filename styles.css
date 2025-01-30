@@ -75,18 +75,6 @@ img {
   font-family: monospace;
 }
 
-pre {
-  background-color: #f7f7f7;
-  padding: 1em;
-  border: 1px solid #ddd;
-  margin-bottom: 20px;
-}
-
-pre code {
-  font-size: 16px;
-  font-family: monospace;
-}
-
 footer {
   background-color: #333;
   color: #fff;
@@ -97,20 +85,22 @@ footer {
 
 /* Responsive design */
 
-@media only screen and (max-width: 768px) {
+@media (max-width: 768px) {
   main {
     flex-direction: column;
   }
+
   section {
     margin-bottom: 10px;
   }
 }
 
-@media only screen and (max-width: 480px) {
-  main {
+@media (max-width: 480px) {
+  nav ul {
     flex-direction: column;
   }
-  section {
-    margin-bottom: 5px;
+
+  nav li {
+    margin-bottom: 10px;
   }
 }
