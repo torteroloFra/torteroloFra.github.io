@@ -1,0 +1,422 @@
+---
+title: ALTEZZA DEI FIGLI A CONFRONTO CON PADRE E MADRE
+jupyter: python3
+---
+
+
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Carica il dataset di Galton
+data = pd.read_csv('./galton.csv')
+
+# Visualizza le prime righe del dataset
+print(data.head())
+
+# Converti le altezze da pollici a centimetri
+data['Father'] = data['Father'] * 2.54  # Altezza del padre in cm
+data['Mother'] = data['Mother'] * 2.54  # Altezza della madre in cm
+data['Height'] = data['Height'] * 2.54   # Altezza del figlio in cm
+
+# Seleziona le colonne di interesse
+X_father = data[['Father']]  # Altezza del padre
+X_mother = data[['Mother']]   # Altezza della madre
+y = data['Height']            # Altezza del figlio
+
+# Suddividi il dataset in un set di addestramento e uno di test
+X_train_father, X_test_father, y_train, y_test = train_test_split(X_father, y, test_size=0.2, random_state=42)
+X_train_mother, X_test_mother, _, _ = train_test_split(X_mother, y, test_size=0.2, random_state=42)
+
+# Crea il modello di regressione lineare per il padre
+model_father = LinearRegression()
+model_father.fit(X_train_father, y_train)
+
+# Fai previsioni sul set di test per il padre
+y_pred_father = model_father.predict(X_test_father)
+
+# Crea il modello di regressione lineare per la madre
+model_mother = LinearRegression()
+model_mother.fit(X_train_mother, y_train)
+
+# Fai previsioni sul set di test per la madre
+y_pred_mother = model_mother.predict(X_test_mother)
+
+# Grafico per l'altezza del padre e del figlio
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)  # Due grafici in una riga, primo grafico
+plt.scatter(X_test_father, y_test, color='blue', label='Dati reali (Padre)')
+plt.plot(X_test_father, y_pred_father, color='red', linewidth=2, label='Predizione (Padre)')
+plt.title('Regressione Lineare: Altezza del Figlio vs Altezza del Padre')
+plt.xlabel('Altezza del Padre (in cm)')
+plt.ylabel('Altezza del Figlio (in cm)')
+plt.legend()
+
+# Grafico per l'altezza della madre e del figlio
+plt.subplot(1, 2, 2)  # Secondo grafico
+plt.scatter(X_test_mother, y_test, color='green', label='Dati reali (Madre)')
+plt.plot(X_test_mother, y_pred_mother, color='orange', linewidth=2, label='Predizione (Madre)')
+plt.title('Regressione Lineare: Altezza del Figlio vs Altezza della Madre')
+plt.xlabel('Altezza della Madre (in cm)')
+plt.ylabel('Altezza del Figlio (in cm)')
+plt.legend()
+
+plt.tight_layout()  # Ottimizza il layout
+plt.show()
+
+# Stampa i coefficienti del modello
+print(f'Coefficiente angolare (Padre): {model_father.coef_[0]}')
+print(f'Intercetta (Padre): {model_father.intercept_}')
+print(f'Coefficiente angolare (Madre): {model_mother.coef_[0]}')
+print(f'Intercetta (Madre): {model_mother.intercept_}')
+
+# Calcola e stampa il punteggio R^2
+r2_score_father = model_father.score(X_test_father, y_test)
+r2_score_mother = model_mother.score(X_test_mother, y_test)
+print(f'R^2 (Padre): {r2_score_father}')
+print(f'R^2 (Madre): {r2_score_mother}')
+```
+
+# ALTEZZA DEI FIGLI MASCHI A CONFRONTO CON PADRE E MADRE
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Carica il dataset di Galton
+data = pd.read_csv('./galton.csv')
+
+# Visualizza le prime righe del dataset
+print(data.head())
+
+# Converti le altezze da pollici a centimetri
+data['Father'] = data['Father'] * 2.54  # Altezza del padre in cm
+data['Mother'] = data['Mother'] * 2.54  # Altezza della madre in cm
+data['Height'] = data['Height'] * 2.54   # Altezza del figlio in cm
+
+# Filtra i dati per includere solo i figli maschi
+data_male = data[data['Gender'] == 'M']
+
+# Seleziona le colonne di interesse
+X_father_male = data_male[['Father']]  # Altezza del padre
+X_mother_male = data_male[['Mother']]   # Altezza della madre
+y_male = data_male['Height']            # Altezza del figlio maschio
+
+# Suddividi il dataset in un set di addestramento e uno di test
+X_train_father_male, X_test_father_male, y_train_male, y_test_male = train_test_split(X_father_male, y_male, test_size=0.2, random_state=42)
+X_train_mother_male, X_test_mother_male, _, _ = train_test_split(X_mother_male, y_male, test_size=0.2, random_state=42)
+
+# Crea il modello di regressione lineare per il padre
+model_father_male = LinearRegression()
+model_father_male.fit(X_train_father_male, y_train_male)
+
+# Fai previsioni sul set di test per il padre
+y_pred_father_male = model_father_male.predict(X_test_father_male)
+
+# Crea il modello di regressione lineare per la madre
+model_mother_male = LinearRegression()
+model_mother_male.fit(X_train_mother_male, y_train_male)
+
+# Fai previsioni sul set di test per la madre
+y_pred_mother_male = model_mother_male.predict(X_test_mother_male)
+
+# Grafico per l'altezza del padre e del figlio maschio
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)  # Due grafici in una riga, primo grafico
+plt.scatter(X_test_father_male, y_test_male, color='blue', label='Dati reali (Padre)')
+plt.plot(X_test_father_male, y_pred_father_male, color='red', linewidth=2, label='Predizione (Padre)')
+plt.title('Regressione Lineare: Altezza del Figlio Maschio vs Altezza del Padre')
+plt.xlabel('Altezza del Padre (in cm)')
+plt.ylabel('Altezza del Figlio Maschio (in cm)')
+plt.legend()
+
+# Grafico per l'altezza della madre e del figlio maschio
+plt.subplot(1, 2, 2)  # Secondo grafico
+plt.scatter(X_test_mother_male, y_test_male, color='green', label='Dati reali (Madre)')
+plt.plot(X_test_mother_male, y_pred_mother_male, color='orange', linewidth=2, label='Predizione (Madre)')
+plt.title('Regressione Lineare: Altezza del Figlio Maschio vs Altezza della Madre')
+plt.xlabel('Altezza della Madre (in cm)')
+plt.ylabel('Altezza del Figlio Maschio (in cm)')
+plt.legend()
+
+plt.tight_layout()  # Ottimizza il layout
+plt.show()
+
+# Stampa i coefficienti del modello
+print(f'Coefficiente angolare (Padre): {model_father_male.coef_[0]}')
+print(f'Intercetta (Padre): {model_father_male.intercept_}')
+print(f'Coefficiente angolare (Madre): {model_mother_male.coef_[0]}')
+print(f'Intercetta (Madre): {model_mother_male.intercept_}')
+
+# Calcola e stampa il punteggio R^2
+r2_score_father_male = model_father_male.score(X_test_father_male, y_test_male)
+# Calcola e stampa il punteggio R^2 per il modello della madre
+r2_score_mother_male = model_mother_male.score(X_test_mother_male, y_test_male)
+
+# Stampa i punteggi R^2
+print(f'Punteggio R^2 (Padre): {r2_score_father_male}')
+print(f'Punteggio R^2 (Madre): {r2_score_mother_male}')
+```
+
+# ALTEZZA DELLE FIGLIE FEMMINE A CONFRONTO CON PADRE E MADRE
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Carica il dataset di Galton
+data = pd.read_csv('./galton.csv')
+
+# Visualizza le prime righe del dataset
+print(data.head())
+
+# Controlla i tipi di dati e cerca valori non numerici
+print(data.dtypes)
+
+# Rimuovi righe con valori non numerici nelle colonne di interesse
+data['Father'] = pd.to_numeric(data['Father'], errors='coerce')
+data['Mother'] = pd.to_numeric(data['Mother'], errors='coerce')
+data['Height'] = pd.to_numeric(data['Height'], errors='coerce')
+
+# Rimuovi righe con valori NaN
+data = data.dropna()
+
+# Converti le altezze da pollici a centimetri
+data['Father'] = data['Father'] * 2.54  # Altezza del padre in cm
+data['Mother'] = data['Mother'] * 2.54  # Altezza della madre in cm
+data['Height'] = data['Height'] * 2.54   # Altezza del figlio in cm
+
+# Filtra i dati per maschi e femmine
+data_maschi = data[data['Gender'] == 'M'] 
+data_femmine = data[data['Gender'] == 'F']
+
+data_maschi = data_maschi.drop(columns=['Kids'])
+data_femmine= data_femmine.drop(columns=['Kids'])
+
+
+# Seleziona le colonne di interesse
+X_father = data[['Father']]  # Altezza del padre
+X_mother = data[['Mother']]   # Altezza della madre
+y = data[['Height']]          # Altezza generica
+y_figlio = data_maschi[['Height']]  # Altezza del figlio maschio
+y_figlia = data_femmine[['Height']]  # Altezza della figlia
+
+# Suddividi il dataset in un set di addestramento e uno di test per i maschi
+X_train_father, X_test_father, y_trainF, y_testF = train_test_split(X_father, y, test_size=0.2, random_state=42)
+X_train_mother, X_test_mother, y_trainM, y_testM = train_test_split(X_mother, y, test_size=0.2, random_state=42)
+
+# Suddividi il dataset in un set di addestramento e uno di test per le femmine
+X_train_father1, X_test_father1, y_trainF1, y_testF1 = train_test_split(X_father[data['Gender'] == 'F'], y_figlia, test_size=0.2, random_state=42)
+X_train_mother1, X_test_mother1, y_trainM1, y_testM1 = train_test_split(X_mother[data['Gender'] == 'F'], y_figlia, test_size=0.2, random_state=42)
+
+
+# Crea il modello di regressione lineare per il padre
+model_father = LinearRegression()
+model_father.fit(X_train_father, y_trainF)
+
+model_father1 = LinearRegression()
+model_father1.fit(X_train_father1, y_trainF1)
+
+# Fai previsioni sul set di test per il padre
+y_pred_father = model_father.predict(X_test_father)
+y_pred_father1 = model_father.predict(X_test_father1)
+
+# Crea il modello di regressione lineare per la madre
+model_mother = LinearRegression()
+model_mother.fit(X_train_mother, y_trainM)
+
+model_mother1 = LinearRegression()
+model_mother1.fit(X_train_mother1, y_trainM1)
+
+# Fai previsioni sul set di test per la madre
+y_pred_mother = model_mother.predict(X_test_mother)
+y_pred_mother1 = model_mother.predict(X_test_mother1)
+
+# Grafico per l'altezza del padre e del figlio
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)  # Due grafici in una riga, primo grafico
+plt.scatter(X_test_father, y_testF, color='blue', label='Dati reali (Padre)')
+plt.plot(X_test_father, y_pred_father, color='red', linewidth=2, label='Predizione (Padre)')
+plt.title('Regressione Lineare: Altezza del Figlio vs Altezza del Padre')
+plt.xlabel('Altezza del Padre (in cm)')
+plt.ylabel('Altezza del Figlio (in cm)')
+plt.legend()
+
+# Grafico per l'altezza della madre e del figlio
+plt.subplot(1, 2, 2)  # Secondo grafico
+plt.scatter(X_test_mother, y_testM, color='green', label='Dati reali (Madre)')
+plt.plot(X_test_mother, y_pred_mother, color='orange', linewidth=2, label='Predizione (Madre)')
+plt.title('Regressione Lineare: Altezza del Figlio vs Altezza della Madre')
+plt.xlabel('Altezza della Madre (in cm)')
+plt.ylabel('Altezza del Figlio (in cm)')
+plt.legend()
+
+plt.tight_layout()  # Ottimizza il layout
+plt.show()
+
+# Stampa i coefficienti del modello
+print(f'Coefficiente angolare (Padre): {model_father.coef_[0]}')
+print(f'Intercetta (Padre): {model_father.intercept_}')
+print(f'Coefficiente angolare (Madre): {model_mother.coef_[0]}')
+print(f'Intercetta (Madre): {model_mother.intercept_}')
+
+# Calcola e stampa il punteggio R^2
+r2_score_father = model_father.score(X_test_father, y_testF)
+r2_score_mother = model_mother.score(X_test_mother, y_testM)
+print(f'R^2 (Padre): {r2_score_father}')
+print(f'R^2 (Madre): {r2_score_mother}')
+
+
+
+# Grafico per l'altezza del padre e della figlia
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)  # Due grafici in una riga, primo grafico
+plt.scatter(X_test_father1, y_testF1, color='blue', label='Dati reali (Padre)')
+plt.plot(X_test_father1, y_pred_father1, color='red', linewidth=2, label='Predizione (Padre)')
+plt.title('Regressione Lineare: Altezza della Figlia vs Altezza del Padre')
+plt.xlabel('Altezza del Padre (in cm)')
+plt.ylabel('Altezza della Figlia (in cm)')
+plt.legend()
+
+# Grafico per l'altezza della madre e del figlia
+plt.subplot(1, 2, 2)  # Secondo grafico
+plt.scatter(X_test_mother1, y_testM1, color='green', label='Dati reali (Madre)')
+plt.plot(X_test_mother1, y_pred_mother1, color='orange', linewidth=2, label='Predizione (Madre)')
+plt.title('Regressione Lineare: Altezza della Figlia vs Altezza della Madre')
+plt.xlabel('Altezza della Madre (in cm)')
+plt.ylabel('Altezza della Figlia (in cm)')
+plt.legend()
+
+plt.tight_layout()  # Ottimizza il layout
+plt.show()
+
+# Stampa i coefficienti del modello
+print(f'Coefficiente angolare (Padre): {model_father1.coef_[0]}')
+print(f'Intercetta (Padre): {model_father1.intercept_}')
+print(f'Coefficiente angolare (Madre): {model_mother1.coef_[0]}')
+print(f'Intercetta (Madre): {model_mother1.intercept_}')
+
+# Calcola e stampa il punteggio R^2
+r2_score_father1 = model_father1.score(X_test_father1, y_testF1)
+r2_score_mother1 = model_mother1.score(X_test_mother1, y_testM1)
+print(f'R^2 (Padre): {r2_score_father1}')
+print(f'R^2 (Madre): {r2_score_mother1}')
+
+# Filtriamo solo le colonne numeriche per calcolare la matrice di correlazione
+numerical_dataset = data_maschi.select_dtypes(include=[np.number])  # Seleziona solo le colonne numeriche
+correlation_matrix = numerical_dataset.corr()  # Calcoliamo la matrice di correlazione
+
+# Visualizziamo la matrice di correlazione con una heatmap
+plt.figure(figsize=(12, 8))  # Imposta la dimensione della figura
+sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", fmt=".2f", linewidths=0.5)  # Heatmap con annotazioni
+plt.title("Correlogramma delle variabili numeriche dei figli maschi")  # Titolo per la heatmap
+plt.show()
+
+
+data_maschi.head()
+
+
+
+# Filtriamo solo le colonne numeriche per calcolare la matrice di correlazione
+numerical_dataset = data_femmine.select_dtypes(include=[np.number])  # Seleziona solo le colonne numeriche
+correlation_matrix = numerical_dataset.corr()  # Calcoliamo la matrice di correlazione
+
+# Visualizziamo la matrice di correlazione con una heatmap
+plt.figure(figsize=(12, 8))  # Imposta la dimensione della figura
+sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", fmt=".2f", linewidths=0.5)  # Heatmap con annotazioni
+plt.title("Correlogramma delle variabili numeriche dei figlie femmine")  # Titolo per la heatmap
+plt.show()
+
+data_femmine.head()
+```
+
+# ALTEZZA DELLE FIGLIE E DEI FIGLI A CONFRONTO CON I GENITORI
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns  # Aggiunto import per Seaborn
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Carica il dataset di Galton
+data = pd.read_csv('./galton.csv')
+
+# Visualizza le prime righe del dataset
+print(data.head())
+
+# Converti le altezze da pollici a centimetri
+data['Father'] = data['Father'] * 2.54  # Altezza del padre in cm
+data['Mother'] = data['Mother'] * 2.54  # Altezza della madre in cm
+data['Height'] = data['Height'] * 2.54   # Altezza del figlio in cm
+
+# Crea la colonna con l'altezza media dei genitori
+data["Parents_avg_cm"] = (data["Father"] + data["Mother"]) / 2
+
+# Separa i dati in figli maschi e figlie femmine
+df_male = data[data["Gender"] == "M"]   # Filtra solo i figli maschi
+df_female = data[data["Gender"] == "F"]  # Filtra solo le figlie femmine
+
+# Creare il secondo grafico con una sola linea di regressione per le figlie femmine
+plt.figure(figsize=(12, 5))
+
+# Primo grafico: Figli maschi vs Altezza media genitori
+plt.subplot(1, 2, 1)
+sns.regplot(x=df_male["Parents_avg_cm"], y=df_male["Height"], scatter_kws={"alpha": 0.5}, line_kws={"color": "red"})
+plt.xlabel("Altezza media genitori (cm)")
+plt.ylabel("Altezza figli maschi (cm)")
+plt.title("Regressione: Figli maschi vs Altezza media genitori")
+
+# Secondo grafico: Figlie femmine vs Altezza media genitori
+plt.subplot(1, 2, 2)
+sns.regplot(x=df_female["Parents_avg_cm"], y=df_female["Height"], scatter_kws={"alpha": 0.5}, line_kws={"color": "purple"})
+plt.xlabel("Altezza media genitori (cm)")
+plt.ylabel("Altezza figlie femmine (cm)")
+plt.title("Regressione: Figlie femmine vs Altezza media genitori")
+
+# Mostrare i grafici
+plt.tight_layout()
+plt.show()
+
+
+
+```
+
+```{python}
+altezzeFigli = data["Height"]
+altezzeFigli
+```
+
+```{python}
+intervalli = np.linspace(140, 200, 13)
+
+fig, ax = plt.subplots(figsize=(3,3))
+fig.set_facecolor("white")
+ax.set_facecolor("#C9DAEA")
+ax.hist(altezzeFigli, bins = intervalli, color = "#688E26", edgecolor="#A63C06")
+ax.set_xlabel("Altezza", color ="#012622")
+ax.set_ylabel("Frequenza assoluta", color ="#012622")
+
+ax.set_title("distribuzione delle altezza", color ="#012622")
+
+
+plt.show()
+```
+
+
