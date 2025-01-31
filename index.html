@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I Miei Progetti</title>
+    <title>Portfolio Progetti Data Science</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Il Mio Portfolio</h1>
+        <h1>Portfolio Progetti Data Science</h1>
+        <p>Una raccolta dei miei progetti scolastici nell'ambito della Data Science</p>
     </header>
 
     <nav>
         <ul>
-            <li><a href="#home">Home</a></li>
             <li><a href="#progetti">Progetti</a></li>
-            <li><a href="#about">Chi Sono</a></li>
+            <li><a href="#competenze">Competenze</a></li>
             <li><a href="#contatti">Contatti</a></li>
         </ul>
     </nav>
@@ -23,31 +23,40 @@
     <main>
         <section id="progetti">
             <h2>I Miei Progetti</h2>
-            <div class="code-block">
-                <code>
-                    // Esempio di codice del progetto<br>
-                    function saluta() {<br>
-                    &nbsp;&nbsp;console.log("Benvenuto nel mio portfolio!");<br>
-                    }
-                </code>
+            <div class="project-grid">
+                <section class="project-card">
+                    <h3>Analisi dell'altezza tra genitori e figli</h3>
+                    <img src="./galtonDefinitivo_files/figure-html/cell-4-output-2.png" alt="Grafici galton">
+                    <p>Analisi dell'andamento della pandemia utilizzando Python e Pandas.</p>
+                    <a href="./galtonDefinitivo.html">Vai al Progetto</a>
+                </section>
+
+                <section class="project-card">
+                    <h3>Analisi news degli Stati Uniti</h3>
+                    <img src="./grafici_files/figure-html/cell-4-output-2.png" alt="News usz">
+                    <p>Implementazione di modelli predittivi per le previsioni meteorologiche.</p>
+                    <a href="grafici.html">Vai al Progetto</a>
+                </section>
+
+                <section class="project-card">
+                    <h3>Analisi del Mercato Azionario</h3>
+                    <img src="/api/placeholder/400/200" alt="Analisi Finanziaria">
+                    <p>Studio delle tendenze di mercato con tecniche di data mining.</p>
+                    <a href="#stock-project">Vai al Progetto</a>
+                </section>
             </div>
-            <img src="/api/placeholder/800/400" alt="Screenshot Progetto">
-            <p>Questo è uno dei miei progetti più recenti. Ho utilizzato le ultime tecnologie per creare un'applicazione moderna e funzionale.</p>
         </section>
 
-        <section>
-            <h2>Competenze</h2>
-            <p>HTML5, CSS3, JavaScript, React, Node.js, Python</p>
+        <section id="competenze">
+            <h2>Competenze Tecniche</h2>
+            </div>
         </section>
 
-        <section>
-            <h2>Esperienza Lavorativa</h2>
-            <p>Ho lavorato su diversi progetti per clienti internazionali, specializzandomi nello sviluppo web full-stack.</p>
-        </section>
+       
     </main>
 
     <footer>
-        <p>&copy; 2025 Il Mio Portfolio. Tutti i diritti riservati.</p>
+        <p>&copy; 2025 Portfolio Data Science. Tutti i diritti riservati.</p>
     </footer>
 </body>
 </html>
